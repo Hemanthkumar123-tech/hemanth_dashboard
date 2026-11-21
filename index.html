@@ -1,119 +1,214 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AR Desk Live Dashboard</title>
+<title>AR Desk Command Center</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1b2430;--mut:#6b7686;--line:#e3e7ee;--acc:#0f6fde;--ok:#14883c;--bad:#c8312b;--warn:#b9770e;--okbg:#e5f5ea;--badbg:#fdeaea;--warnbg:#fdf3df;--edit:#fff8d6}
-@media (prefers-color-scheme:dark){:root{--bg:#10151c;--card:#171e28;--ink:#e6ebf2;--mut:#93a0b3;--line:#27313f;--acc:#5aa2ff;--ok:#4cc27a;--bad:#ff7a73;--warn:#e8b04a;--okbg:#14301f;--badbg:#3a1a1a;--warnbg:#3a2e14;--edit:#3a3414}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif}
-header{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-h1{font-size:16px;margin:0;font-weight:650}.dot{width:10px;height:10px;border-radius:50%;background:var(--mut);display:inline-block;margin-right:6px}
-.dot.on{background:var(--ok);box-shadow:0 0 0 0 var(--ok);animation:p 2s infinite}.dot.off{background:var(--bad)}
-@keyframes p{70%{box-shadow:0 0 0 7px transparent}}
-.sp{flex:1}.mut{color:var(--mut)}small{font-size:12px}
-button{font:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:5px 11px;border-radius:7px;cursor:pointer}button:hover{border-color:var(--acc)}
-button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
-main{padding:16px;max-width:1500px;margin:auto}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
-.tile{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}.tile b{display:block;font-size:22px;font-weight:650}.tile span{color:var(--mut);font-size:12px}
-.tile.bad b{color:var(--bad)}.tile.ok b{color:var(--ok)}.tile.warn b{color:var(--warn)}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
-.tab{padding:6px 13px;border-radius:99px;border:1px solid var(--line);background:var(--card);cursor:pointer}.tab.act{background:var(--acc);color:#fff;border-color:var(--acc)}
-input[type=search],input[type=text],input[type=password]{font:inherit;padding:6px 9px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink)}
-.wrap{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:auto;max-height:68vh}
-table{border-collapse:collapse;width:100%}th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;max-width:420px;overflow:hidden;text-overflow:ellipsis}
-th{position:sticky;top:0;background:var(--card);font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.03em;z-index:1}
-td.ed{cursor:text}td.ed:hover{background:var(--edit)}td.busy{background:var(--warnbg)}td.flash{animation:f 1.6s}@keyframes f{from{background:var(--edit)}}
-td input.cell{width:100%;min-width:140px;font:inherit;padding:2px 4px;border:1px solid var(--acc);border-radius:4px;background:var(--card);color:var(--ink)}
-.pill{padding:1px 8px;border-radius:99px;font-size:12px;background:var(--line)}.pill.ok{background:var(--okbg);color:var(--ok)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.warn{background:var(--warnbg);color:var(--warn)}
-#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;opacity:0;transition:.25s;pointer-events:none;max-width:90vw}#toast.show{opacity:1}
-#login{max-width:420px;margin:12vh auto;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px}#login label{display:block;margin:10px 0 3px;color:var(--mut);font-size:12px}#login input{width:100%}
-.err{color:var(--bad);margin-top:8px}.hide{display:none!important}.x{color:var(--bad);cursor:pointer;border:0;background:none;padding:0 4px}
-@media(max-width:640px){main{padding:10px}th,td{padding:6px}}
+:root{--bg:#0a0f1d;--bg2:#0e1527;--card:#111a2f;--card2:#16213a;--ink:#e8eefc;--mut:#8c9bbd;--line:#1f2b47;--acc:#4f8cff;--acc2:#8b5cf6;--ok:#32d583;--bad:#ff6b6b;--warn:#f5b042;--okbg:rgba(50,213,131,.13);--badbg:rgba(255,107,107,.13);--warnbg:rgba(245,176,66,.13);--accbg:rgba(79,140,255,.14);--shadow:0 8px 30px rgba(0,0,0,.35)}
+[data-theme=light]{--bg:#eef2f9;--bg2:#e6ecf7;--card:#fff;--card2:#f4f7fc;--ink:#16223b;--mut:#62729a;--line:#dfe6f3;--acc:#2d6be6;--acc2:#7a4df0;--ok:#16a066;--bad:#d93f3f;--warn:#c98410;--okbg:#e2f6ec;--badbg:#fdeaea;--warnbg:#fdf2dc;--accbg:#e4edff;--shadow:0 8px 24px rgba(30,50,100,.10)}
+*{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 Inter,system-ui,Segoe UI,Roboto,sans-serif}
+.hide{display:none!important}.mut{color:var(--mut)}small{font-size:12px}.sp{flex:1}
+button{font:inherit;color:var(--ink);background:var(--card2);border:1px solid var(--line);padding:7px 13px;border-radius:9px;cursor:pointer;transition:.15s}button:hover{border-color:var(--acc)}
+button.pri{background:linear-gradient(135deg,var(--acc),var(--acc2));border:0;color:#fff;font-weight:600}button.pri:hover{filter:brightness(1.1)}
+input,select{font:inherit;color:var(--ink);background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:none}input:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--accbg)}
+/* ---------- login ---------- */
+#login{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:radial-gradient(1200px 700px at 15% 10%,#16306b 0,transparent 60%),radial-gradient(900px 600px at 90% 90%,#43238a 0,transparent 55%),#070b17}
+#login svg.bg{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.lbox{position:relative;width:min(420px,92vw);background:rgba(17,26,47,.78);backdrop-filter:blur(16px);border:1px solid rgba(120,150,255,.25);border-radius:18px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.logo{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;font-weight:800;color:#fff;font-size:20px;box-shadow:0 6px 20px rgba(79,140,255,.45)}
+.lbox h1{margin:14px 0 2px;font-size:22px;color:#e8eefc}.lbox p{margin:0 0 16px;color:#8c9bbd}.lbox label{display:block;margin:12px 0 5px;color:#8c9bbd;font-size:12px}.lbox input{width:100%;color:#e8eefc;background:rgba(7,11,23,.7);border-color:#27355a}
+.lbox .pw{position:relative}.lbox .pw button{position:absolute;right:5px;top:5px;padding:4px 9px;font-size:12px;background:transparent;border:0;color:#8c9bbd}
+.lbox .go{width:100%;margin-top:18px;padding:11px;font-size:15px}.err{color:var(--bad);margin-top:10px;min-height:18px}.lbox details{margin-top:14px;color:#8c9bbd;font-size:12px}.lbox summary{cursor:pointer}
+.chk{display:flex;gap:7px;align-items:center;margin-top:12px;color:#8c9bbd;font-size:13px}.chk input{width:auto}
+/* ---------- app shell ---------- */
+#app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+nav{background:var(--bg2);border-right:1px solid var(--line);padding:16px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:3px}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 16px}.brand .logo{width:36px;height:36px;font-size:16px;border-radius:10px}.brand b{display:block;line-height:1.1}.brand span{font-size:11px;color:var(--mut)}
+.nv{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:10px;color:var(--mut);cursor:pointer;border:1px solid transparent}.nv:hover{background:var(--card)}.nv.act{background:var(--accbg);color:var(--ink);border-color:rgba(79,140,255,.35)}
+.nv i{font-style:normal;width:20px;text-align:center}.nv em{margin-left:auto;font-style:normal;font-size:11px;background:var(--badbg);color:var(--bad);padding:1px 7px;border-radius:99px}
+.navfoot{margin-top:auto;padding:10px 8px;border-top:1px solid var(--line);font-size:12px}
+.top{display:flex;gap:12px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--line);position:sticky;top:0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);z-index:5;flex-wrap:wrap}
+.top h2{margin:0;font-size:18px}.live{display:flex;gap:7px;align-items:center;color:var(--mut);font-size:12px}.dot{width:9px;height:9px;border-radius:50%;background:var(--mut)}.dot.on{background:var(--ok);animation:pu 2s infinite}.dot.off{background:var(--bad)}
+@keyframes pu{0%{box-shadow:0 0 0 0 rgba(50,213,131,.6)}70%{box-shadow:0 0 0 8px transparent}}
+.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#fff;font-weight:700}
+main{padding:20px 22px 40px;max-width:1600px}
+.grid{display:grid;gap:14px}.g6{grid-template-columns:repeat(6,1fr)}.g2{grid-template-columns:2fr 1fr}.g3{grid-template-columns:1.3fr 1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);min-width:0}
+.card h3{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--mut);display:flex;gap:8px;align-items:center}.card h3 .sp{flex:1}
+.kpi b{display:block;font-size:28px;font-weight:700;line-height:1.1;margin:4px 0}.kpi span{color:var(--mut);font-size:12px}.kpi .sub{font-size:12px}
+.kpi.ok b{color:var(--ok)}.kpi.bad b{color:var(--bad)}.kpi.warn b{color:var(--warn)}.kpi svg{display:block;margin-top:6px;width:100%;height:34px}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;background:var(--card2);color:var(--mut);white-space:nowrap}.pill.ok{background:var(--okbg);color:var(--ok)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.acc{background:var(--accbg);color:var(--acc)}
+.feed{display:flex;flex-direction:column;gap:2px;max-height:300px;overflow:auto}.fi{display:flex;gap:10px;align-items:center;padding:7px 4px;border-bottom:1px solid var(--line)}.fi:last-child{border:0}.fi .t{color:var(--mut);font-size:12px;width:82px;flex:none}.fi .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.issue{display:flex;gap:10px;padding:8px 10px;border-radius:10px;background:var(--warnbg);margin-bottom:7px;cursor:pointer}.issue.bad{background:var(--badbg)}.issue b{display:block}.issue.none{background:var(--okbg);cursor:default}
+.bar{display:flex;align-items:center;gap:10px;margin:7px 0}.bar .l{width:42%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bar .b{flex:1;height:8px;background:var(--card2);border-radius:9px;overflow:hidden}.bar .b i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:9px}.bar .v{width:34px;text-align:right;color:var(--mut)}
+.kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}.kv:last-child{border:0}
+.tools{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}.tools input[type=search]{min-width:240px}.chips{display:flex;gap:6px}.chip{padding:5px 12px;border-radius:99px;border:1px solid var(--line);cursor:pointer;color:var(--mut)}.chip.act{background:var(--accbg);color:var(--ink);border-color:var(--acc)}
+.wrap{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:auto;max-height:calc(100vh - 220px);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%}th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;max-width:460px;overflow:hidden;text-overflow:ellipsis}
+th{position:sticky;top:0;background:var(--card2);font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;z-index:1}tr:hover td{background:rgba(79,140,255,.05)}
+td.ed{cursor:text}td.ed:hover{outline:1px dashed var(--acc);outline-offset:-3px}td.busy{background:var(--warnbg)}
+td input.cell{width:100%;min-width:150px;padding:3px 6px;border-color:var(--acc)}input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc);cursor:pointer}
+.x{color:var(--bad);border:0;background:none;padding:0 6px}
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--acc);color:var(--ink);padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;max-width:92vw;z-index:50;box-shadow:var(--shadow)}#toast.show{opacity:1}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:grid;place-items:center;z-index:40}.modal .card{width:min(420px,92vw)}.modal label{display:block;margin:10px 0 4px;color:var(--mut);font-size:12px}.modal input,.modal select{width:100%}
+@media(max-width:1100px){.g6{grid-template-columns:repeat(3,1fr)}.g2,.g3{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){#app{grid-template-columns:1fr}nav{position:fixed;bottom:0;top:auto;height:auto;flex-direction:row;overflow-x:auto;z-index:20;border-top:1px solid var(--line);border-right:0;padding:6px}.brand,.navfoot{display:none}.nv{flex-direction:column;gap:0;padding:6px 10px;font-size:11px;flex:none}.nv em{display:none}main{padding:12px 12px 90px}.g6{grid-template-columns:repeat(2,1fr)}.top{padding:10px 12px}}
 </style></head><body>
-<div id="login" class="hide"><h1>AR Desk Live Dashboard</h1><p class="mut">Sign in once; this browser remembers it.</p>
-<label>Apps Script web app URL (ends with /exec)</label><input id="lu" type="text" placeholder="https://script.google.com/macros/s/.../exec">
-<label>Dashboard password</label><input id="lp" type="password"><p><button class="pri" id="lgo">Open dashboard</button></p><div class="err" id="lerr"></div></div>
+
+<div id="login">
+<svg class="bg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#4f8cff"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+<g fill="none" stroke="url(#lg)" stroke-width="1.6"><path d="M0 620 H260 Q290 620 290 590 V420 H520 Q545 420 545 395 V200 H820"/><path d="M1200 160 H930 Q905 160 905 190 V380 H700 Q675 380 675 405 V600 H420 Q395 600 395 625 V800"/><path d="M0 250 H170 Q200 250 200 280 V470 H360"/><path d="M1200 700 H1010 Q985 700 985 670 V560 H840"/></g>
+<g fill="#4f8cff"><circle cx="290" cy="420" r="5"/><circle cx="545" cy="200" r="5"/><circle cx="905" cy="380" r="5"/><circle cx="675" cy="600" r="5"/><circle cx="200" cy="470" r="5"/><circle cx="985" cy="560" r="5"/></g></svg>
+<form class="lbox" id="lform"><div class="logo">AR</div><h1>AR Desk Command Center</h1><p>Sign in to monitor alerts, clients and WhatsApp forwarding.</p>
+<label>Username</label><input id="lu_user" autocomplete="username" required>
+<label>Password</label><div class="pw"><input id="lu_pass" type="password" autocomplete="current-password" required><button type="button" id="eye">Show</button></div>
+<label class="chk"><input type="checkbox" id="rem" checked> Keep me signed in on this device</label>
+<button class="pri go" id="lgo" type="submit">Sign in</button><div class="err" id="lerr"></div>
+<details id="conn"><summary>Connection settings</summary><label>Apps Script web app URL (ends with /exec)</label><input id="lu_url" placeholder="https://script.google.com/macros/s/.../exec"></details></form></div>
 
 <div id="app" class="hide">
-<header><h1>AR Desk Live Dashboard</h1><span><span class="dot" id="dot"></span><span id="sync" class="mut">connecting…</span></span>
-<span class="sp"></span><span id="role" class="pill"></span><button id="rf">Refresh now</button><button id="out">Sign out</button></header>
-<main><div class="tiles" id="tiles"></div>
-<div class="tabs" id="tabs"></div>
-<div class="tabs"><input type="search" id="q" placeholder="Search this sheet…" size="28"><span class="mut" id="cnt"></span><span class="sp"></span><button id="add" class="hide">+ Add row</button></div>
-<div class="wrap"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
-<p class="mut"><small>Click a cell to edit, Enter to save, Esc to cancel. Changes go straight into the Google Sheet; changes made in the sheet appear here within seconds. Log and Outbox are read-only (latest 200 rows).</small></p></main></div>
-<div id="toast"></div>
-<script>
-const DEFAULT_URL="";            // optional: put your /exec URL here so people only type the password
-const POLL_MS=6000, POLL_HIDDEN_MS=30000;
-let cfg={url:"",pw:""},snap=null,ver="",tab="Routes",filter="",editing=null,pending={},timer=null,failing=0;
-const $=id=>document.getElementById(id);
-const store={get(k){try{return localStorage.getItem(k)||""}catch(e){return ""}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
-const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-function toast(m,ms=3200){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),ms)}
-async function api(params){const u=cfg.url+(cfg.url.includes("?")?"&":"?")+new URLSearchParams(Object.assign({action:"dash",secret:cfg.pw},params));
-  const r=await fetch(u,{redirect:"follow"});return r.json()}
-async function write(body){const r=await fetch(cfg.url+"?action=dash",{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({secret:cfg.pw},body))});return r.json()}
+<nav><div class="brand"><div class="logo">AR</div><div><b>AR Desk</b><span>Command Center</span></div></div><div id="nav"></div>
+<div class="navfoot"><div id="who" class="mut"></div><div style="margin-top:8px;display:flex;gap:6px"><button id="theme">Theme</button><button id="out">Sign out</button></div></div></nav>
+<div><div class="top"><h2 id="title">Overview</h2><span class="live"><span class="dot" id="dot"></span><span id="sync">connecting…</span></span><span class="sp"></span><span id="role" class="pill"></span><button id="rf">Refresh</button><div class="av" id="av"></div></div>
+<main id="main"></main></div></div>
+<div id="toast"></div><div id="modal" class="modal hide"></div>
 
-async function login(){cfg.url=$("lu").value.trim();cfg.pw=$("lp").value;$("lerr").textContent="";
-  try{const d=await api({});if(!d.ok){$("lerr").textContent=d.error||"Login failed";return}
-    store.set("dash_url",cfg.url);store.set("dash_pw",cfg.pw);start(d)}catch(e){$("lerr").textContent="Cannot reach the web app. Check the URL and that it is deployed for 'Anyone'."}}
-function start(first){$("login").classList.add("hide");$("app").classList.remove("hide");apply(first);schedule()}
+<script>
+const DEFAULT_URL="";   // put your Apps Script /exec URL here so people only type username + password
+const POLL_MS=6000,POLL_HIDDEN_MS=30000;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const st={get(k){try{return localStorage.getItem(k)||sessionStorage.getItem(k)||""}catch(e){return""}},set(k,v,persist=true){try{(persist?localStorage:sessionStorage).setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k);sessionStorage.removeItem(k)}catch(e){}}};
+let cfg={url:"",token:""},snap=null,ver="",page="overview",filter="",chip="all",editing=null,pending={},timer=null;
+function toast(m,ms=3200){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),ms)}
+async function get(params){const u=cfg.url+(cfg.url.includes("?")?"&":"?")+new URLSearchParams(Object.assign({action:"dash",token:cfg.token},params));return (await fetch(u,{redirect:"follow"})).json()}
+async function post(body){const r=await fetch(cfg.url+"?action=dash",{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({token:cfg.token},body))});return r.json()}
+
+/* ---------- theme ---------- */
+function setTheme(t){document.documentElement.dataset.theme=t;st.set("dash_theme",t)}setTheme(st.get("dash_theme")||"dark");
+$("theme").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+
+/* ---------- login ---------- */
+$("eye").onclick=()=>{const p=$("lu_pass");p.type=p.type==="password"?"text":"password";$("eye").textContent=p.type==="password"?"Show":"Hide"};
+$("lform").onsubmit=async e=>{e.preventDefault();$("lerr").textContent="";$("lgo").disabled=true;$("lgo").textContent="Signing in…";
+  cfg.url=($("lu_url").value||DEFAULT_URL).trim();
+  try{if(!cfg.url){$("conn").open=true;throw new Error("Enter the Apps Script URL under Connection settings")}
+    const r=await (await fetch(cfg.url+"?action=dash",{method:"POST",redirect:"follow",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({op:"login",username:$("lu_user").value,password:$("lu_pass").value})})).json();
+    if(!r.ok)throw new Error(r.error||"Login failed");
+    cfg.token=r.token;const keep=$("rem").checked;st.set("dash_url",cfg.url);st.set("dash_token",cfg.token,keep);$("lu_pass").value="";await enter()}
+  catch(err){$("lerr").textContent=err.message.includes("fetch")?"Cannot reach the web app. Check the URL and that it is deployed for 'Anyone'.":err.message}
+  $("lgo").disabled=false;$("lgo").textContent="Sign in"};
+async function enter(){const d=await get({});if(!d.ok)throw new Error(d.error);$("login").classList.add("hide");$("app").classList.remove("hide");apply(d);schedule()}
+function signout(){st.del("dash_token");clearTimeout(timer);snap=null;ver="";cfg.token="";$("app").classList.add("hide");$("login").classList.remove("hide")}
+$("out").onclick=signout;
+
+/* ---------- polling ---------- */
 function schedule(){clearTimeout(timer);timer=setTimeout(poll,document.hidden?POLL_HIDDEN_MS:POLL_MS)}
-async function poll(force){
-  try{const d=await api(force?{}:{since:ver});failing=0;
-    if(!d.ok){if(/Unauthorized/.test(d.error)){signout();return}throw new Error(d.error)}
-    if(d.unchanged){snap&&(snap.status=d.status);header(d)}else apply(d)}
-  catch(e){failing++;$("dot").className="dot off";$("sync").textContent="offline – retrying ("+(e.message||"network")+")"}
-  schedule()}
-function apply(d){snap=d;ver=d.version;header(d);tiles();tabs();if(!editing)render()}
-function header(d){$("dot").className="dot on";$("sync").textContent="live · updated "+new Date().toLocaleTimeString();
-  $("role").textContent=snap.role==="edit"?"can edit":"view only";$("role").className="pill "+(snap.role==="edit"?"ok":"warn");tiles()}
-function tiles(){if(!snap)return;const ob=(snap.status&&snap.status.outbox)||{},ago=snap.status&&snap.status.lastBridgePollSecondsAgo,m=snap.mode||{};
-  const routes=snap.sheets.Routes?snap.sheets.Routes.rows:[];const act=routes.filter(r=>!/^n/i.test(String(r.v[3]||""))).length;
-  const noGroup=routes.filter(r=>!/^\d+@g\.us$/.test(String(r.v[2]||"").trim())).length;
-  const cs=snap.sheets.ChatSpaces?snap.sheets.ChatSpaces.rows.filter(r=>r.v[3]===true).length:0;
-  const T=(n,v,c)=>`<div class="tile ${c||""}"><b>${esc(v)}</b><span>${n}</span></div>`;
-  const bridge=ago==null?T("Bridge","never","bad"):T("Bridge last poll",ago+"s ago",ago>120?"bad":"ok");
-  $("tiles").innerHTML=bridge+T("Forwarding mode",m.MODE||"-",m.MODE==="LIVE"?"ok":"warn")+T("KMCH mode",m.KMCH_MODE||"-")+T("Chat relay mode",m.CHATRELAY_MODE||"-")+
-   T("Sent (recent)",ob.SENT||0,"ok")+T("Pending",(ob.PENDING||0)+(ob.LEASED||0),(ob.PENDING||0)>5?"warn":"")+T("Failed / expired",(ob.FAILED||0)+(ob.EXPIRED||0),(ob.FAILED||0)?"bad":"")+
-   T("Active clients",act+" / "+routes.length)+T("Clients w/o group",noGroup,noGroup?"warn":"ok")+T("Chat spaces enabled",cs)}
-function tabs(){const names=Object.keys(snap.sheets);if(!names.includes(tab))tab=names[0];
-  $("tabs").innerHTML=names.map(n=>`<span class="tab ${n===tab?"act":""}" data-t="${n}">${n} <small>${snap.sheets[n].total}</small></span>`).join("")}
-function statusPill(v){const s=String(v);const c=/^(SENT|OK|.*QUEUED.*|MATCHED|LIVE)$/i.test(s)?"ok":/FAIL|ERROR|EXPIRED|MISMATCH|AMBIG|BAD_|NOT_IN|NO_/i.test(s)?"bad":/PENDING|LEASED|TEST|WARN/i.test(s)?"warn":"";return c?`<span class="pill ${c}">${esc(s)}</span>`:esc(s)}
-function render(){if(!snap)return;const s=snap.sheets[tab];if(!s)return;const q=filter.toLowerCase();
-  const rows=s.rows.filter(r=>!q||r.v.some(x=>String(x).toLowerCase().includes(q)));
-  $("cnt").textContent=rows.length+" of "+s.rows.length+" rows";$("add").classList.toggle("hide",!(s.editable&&snap.role==="edit"));
-  $("th").innerHTML="<tr>"+s.header.map(h=>"<th>"+esc(h)+"</th>").join("")+(s.editable?"<th></th>":"")+"</tr>";
-  $("tb").innerHTML=rows.map(r=>"<tr data-r='"+r.r+"'>"+s.header.map((h,c)=>{const v=r.v[c],edc=s.editable&&c<s.cols,k=tab+"|"+r.r+"|"+(c+1),busy=pending[k]?" busy":"";
-    const isBox=tab==="ChatSpaces"&&c===3;
-    const inner=isBox?`<input type="checkbox" ${v===true?"checked":""} ${edc?"":"disabled"} data-box="1">`:(!edc&&(tab==="Outbox"||tab==="Log")?statusPill(v):esc(v));
-    return `<td class="${edc&&!isBox?"ed":""}${busy}" data-c="${c+1}" title="${esc(v)}">${inner}</td>`}).join("")+(s.editable?`<td><button class="x" data-del="1" title="Delete row">✕</button></td>`:"")+"</tr>").join("")}
+async function poll(force){try{const d=await get(force?{}:{since:ver});
+  if(!d.ok){if(/Unauthorized/.test(d.error)){toast("Session ended – please sign in again");signout();return}throw new Error(d.error)}
+  if(d.unchanged){snap.status=d.status;snap.now=d.now;live();navBadge()}else apply(d)}
+ catch(e){$("dot").className="dot off";$("sync").textContent="offline – retrying"}schedule()}
+function live(){$("dot").className="dot on";$("sync").textContent="Live · "+new Date().toLocaleTimeString()}
+function apply(d){snap=d;ver=d.version;live();$("who").textContent=d.user+" · "+d.role;$("av").textContent=d.user[0].toUpperCase();$("role").textContent=d.role;$("role").className="pill "+(d.role==="viewer"?"warn":"ok");navBuild();if(!editing)show()}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&snap)poll(true)});$("rf").onclick=()=>poll(true);
+
+/* ---------- helpers ---------- */
+const GROUP=/^\d{8,}@g\.us$/;
+function issues(){const R=(snap.sheets.Routes||{rows:[]}).rows,out=[],ids={};
+  R.forEach(r=>{const id=String(r.v[1]).trim();if(id)ids[id]=(ids[id]||0)+1});
+  const noGroup=R.filter(r=>!/^n/i.test(String(r.v[3]))&&!GROUP.test(String(r.v[2]).trim())),dup=Object.keys(ids).filter(k=>ids[k]>1),noId=R.filter(r=>!String(r.v[1]).trim());
+  if(dup.length)out.push({lv:"bad",t:dup.length+" duplicate client ID(s)",d:"IDs "+dup.slice(0,4).join(", ")+" – alerts for them are blocked (AMBIGUOUS)",f:"dup"});
+  if(noGroup.length)out.push({lv:"warn",t:noGroup.length+" active client(s) without a valid WhatsApp group",d:noGroup.slice(0,3).map(r=>r.v[0]).join(", ")+(noGroup.length>3?"…":""),f:"nogroup"});
+  if(noId.length)out.push({lv:"warn",t:noId.length+" row(s) without a client ID",d:"These can never match an alert",f:"noid"});
+  const ago=snap.status&&snap.status.lastBridgePollSecondsAgo;if(ago==null||ago>120)out.push({lv:"bad",t:"WhatsApp bridge is not polling",d:ago==null?"No poll seen yet":"Last poll "+Math.round(ago/60)+" min ago – alerts are queued but not delivered",f:""});
+  const ob=(snap.status&&snap.status.outbox)||{};if((ob.FAILED||0)>0)out.push({lv:"bad",t:ob.FAILED+" message(s) failed to send",d:"See Outbox",f:"",p:"outbox"});
+  return {list:out,dup:new Set(dup),noGroup:new Set(noGroup.map(r=>r.r)),noId:new Set(noId.map(r=>r.r))}}
+function resClass(s){s=String(s);return /QUEUED|SENT|^OK|MATCHED|LIVE$/.test(s)?"ok":/FAIL|ERROR|EXPIRED|MISMATCH|AMBIG|BAD_|NOT_IN|NO_|WARNING/i.test(s)?"bad":/PENDING|LEASED|TEST|INACTIVE|DUPLICATE|NON_REPORT/i.test(s)?"warn":""}
+const pill=(s,c)=>`<span class="pill ${c??resClass(s)}">${esc(s)}</span>`;
+function spark(a,color){const w=200,h=34,m=Math.max(1,...a),p=a.map((v,i)=>[i*(w/(a.length-1)),h-3-(v/m)*(h-8)]);const d=p.map((q,i)=>(i?"L":"M")+q[0].toFixed(1)+" "+q[1].toFixed(1)).join(" ");
+  return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><path d="${d} L${w} ${h} L0 ${h}Z" fill="${color}" opacity=".14"/><path d="${d}" fill="none" stroke="${color}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`}
+function bars(s){const w=640,h=190,n=s.hours.length,bw=w/n,m=Math.max(1,...s.sent.map((v,i)=>v+s.blocked[i]));let o=`<svg viewBox="0 0 ${w} ${h+22}" style="width:100%;height:auto">`;
+  for(let g=0;g<=3;g++){const y=h-(g/3)*(h-10);o+=`<line x1="0" x2="${w}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="2" y="${y-3}" fill="var(--mut)" font-size="9">${Math.round(m*g/3)}</text>`}
+  s.hours.forEach((hr,i)=>{const sh=Math.max(0,s.sent[i]/m)*(h-10),bh=Math.max(0,s.blocked[i]/m)*(h-10),x=i*bw+3;
+   o+=`<rect x="${x}" y="${h-sh}" width="${bw-6}" height="${sh}" rx="3" fill="var(--acc)"><title>${hr}:00  sent ${s.sent[i]}</title></rect><rect x="${x}" y="${h-sh-bh}" width="${bw-6}" height="${bh}" rx="3" fill="var(--bad)" opacity=".85"><title>${hr}:00  blocked ${s.blocked[i]}</title></rect>`;
+   if(i%3===0)o+=`<text x="${x}" y="${h+14}" fill="var(--mut)" font-size="10">${hr}h</text>`});return o+"</svg>"}
+function donut(res){const e=Object.entries(res).sort((a,b)=>b[1]-a[1]),tot=e.reduce((a,b)=>a+b[1],0);if(!tot)return'<p class="mut">No alerts in the last 24 hours.</p>';
+  const cols={ok:"var(--ok)",bad:"var(--bad)",warn:"var(--warn)","":"var(--acc2)"};let a=0,seg="";const r=52,C=2*Math.PI*r;
+  e.forEach(([k,v])=>{const f=v/tot;seg+=`<circle r="${r}" cx="70" cy="70" fill="none" stroke="${cols[resClass(k)]}" stroke-width="18" stroke-dasharray="${f*C} ${C}" stroke-dashoffset="${-a*C}" transform="rotate(-90 70 70)"/>`;a+=f});
+  return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><svg viewBox="0 0 140 140" width="140">${seg}<text x="70" y="68" text-anchor="middle" fill="var(--ink)" font-size="22" font-weight="700">${tot}</text><text x="70" y="84" text-anchor="middle" fill="var(--mut)" font-size="10">alerts / 24h</text></svg><div style="flex:1;min-width:130px">${e.slice(0,6).map(([k,v])=>`<div class="kv"><span>${pill(k)}</span><b>${v}</b></div>`).join("")}</div></div>`}
+
+/* ---------- navigation ---------- */
+const PAGES=[["overview","▦","Overview"],["clients","🏥","Clients"],["spaces","💬","Chat Spaces"],["log","📜","Alert Log"],["outbox","📤","Outbox"],["activity","🕘","Activity"],["users","👥","Users"]];
+function navBuild(){const n=issues().list.length;$("nav").innerHTML=PAGES.filter(p=>p[0]!=="activity"||snap.audit).filter(p=>p[0]!=="users"||snap.users).map(p=>`<div class="nv ${p[0]===page?"act":""}" data-p="${p[0]}"><i>${p[1]}</i>${p[2]}${p[0]==="overview"&&n?`<em>${n}</em>`:""}</div>`).join("")}
+function navBadge(){navBuild()}
+document.addEventListener("click",e=>{const n=e.target.closest(".nv");if(n){go(n.dataset.p)}});
+function go(p,f){page=p;if(f)chip=f;else chip="all";filter="";editing=null;navBuild();show()}
+function show(){if(!snap)return;$("title").textContent=(PAGES.find(p=>p[0]===page)||[])[2]||"";({overview,clients:()=>sheetPage("Routes"),spaces:()=>sheetPage("ChatSpaces"),log:()=>sheetPage("Log"),outbox:()=>sheetPage("Outbox"),activity,users}[page]||overview)()}
+
+/* ---------- overview ---------- */
+function overview(){const s=snap.stats,ob=snap.status.outbox||{},ago=snap.status.lastBridgePollSecondsAgo,R=snap.sheets.Routes.rows,act=R.filter(r=>!/^n/i.test(String(r.v[3]))).length,is=issues();
+  const sent=s.sent.reduce((a,b)=>a+b,0),blk=s.blocked.reduce((a,b)=>a+b,0),pend=(ob.PENDING||0)+(ob.LEASED||0);
+  const K=(l,v,sub,cls,sp)=>`<div class="card kpi ${cls||""}"><span>${l}</span><b>${v}</b><span class="sub">${sub||""}</span>${sp||""}</div>`;
+  const feed=snap.sheets.Log.rows.slice(0,10).map(r=>`<div class="fi"><span class="t">${esc(String(r.v[0]).slice(0,12))}</span><span class="n">${esc(r.v[4]||"—")} <span class="mut">${esc(r.v[6]?"#"+r.v[6]:"")}</span></span>${pill(r.v[2])}</div>`).join("")||'<p class="mut">No alerts yet.</p>';
+  $("main").innerHTML=`<div class="grid g6">
+   ${K("Forwarded · 24h",sent,"queued to WhatsApp","ok",spark(s.sent,"var(--ok)"))}
+   ${K("Blocked · 24h",blk,"not sent (rules / errors)",blk?"warn":"",spark(s.blocked,"var(--warn)"))}
+   ${K("In queue",pend,(ob.SENT||0)+" sent recently",pend>5?"warn":"")}
+   ${K("Bridge",ago==null?"Never":ago+"s ago",ago==null||ago>120?"not polling!":"WhatsApp connected",ago==null||ago>120?"bad":"ok")}
+   ${K("Active clients",act,"of "+R.length+" in Routes")}
+   ${K("Needs attention",is.list.length,is.list.length?"see panel below":"all clear",is.list.length?"bad":"ok")}</div>
+  <div class="grid g2" style="margin-top:14px"><div class="card"><h3>Alerts per hour (last 24h)<span class="sp"></span><span class="pill acc">sent</span><span class="pill bad">blocked</span></h3>${bars(s)}</div>
+   <div class="card"><h3>Outcome breakdown</h3>${donut(s.results)}</div></div>
+  <div class="grid g3" style="margin-top:14px"><div class="card"><h3>Live feed<span class="sp"></span><a style="color:var(--acc);cursor:pointer" onclick="go('log')">view all</a></h3><div class="feed">${feed}</div></div>
+   <div class="card"><h3>Needs attention</h3>${is.list.length?is.list.map(i=>`<div class="issue ${i.lv==="bad"?"bad":""}" onclick="go('${i.p||"clients"}','${i.f}')"><div><b>${esc(i.t)}</b><span class="mut">${esc(i.d)}</span></div></div>`).join(""):'<div class="issue none"><b>Everything looks healthy ✓</b></div>'}</div>
+   <div class="card"><h3>Top clients · 24h</h3>${s.top.length?s.top.map(t=>`<div class="bar"><span class="l">${esc(t[0])}</span><span class="b"><i style="width:${t[1]/s.top[0][1]*100}%"></i></span><span class="v">${t[1]}</span></div>`).join(""):'<p class="mut">No forwarded alerts yet.</p>'}
+    <h3 style="margin-top:16px">System</h3><div class="kv"><span>AR forwarding</span>${pill(snap.mode.MODE,snap.mode.MODE==="LIVE"?"ok":"warn")}</div><div class="kv"><span>KMCH feed</span>${pill(snap.mode.KMCH_MODE,snap.mode.KMCH_MODE==="LIVE"?"ok":snap.mode.KMCH_MODE==="OFF"?"":"warn")}</div><div class="kv"><span>Chat relay</span>${pill(snap.mode.CHATRELAY_MODE,snap.mode.CHATRELAY_MODE==="LIVE"?"ok":snap.mode.CHATRELAY_MODE==="OFF"?"":"warn")}</div></div></div>`}
+
+/* ---------- generic sheet page (Clients, Chat spaces, Log, Outbox) ---------- */
+function sheetPage(name){const s=snap.sheets[name];if(!s)return;const q=filter.toLowerCase(),is=name==="Routes"?issues():null,can=s.editable;
+  let rows=s.rows;if(is&&chip!=="all")rows=rows.filter(r=>chip==="dup"?is.dup.has(String(r.v[1]).trim()):chip==="nogroup"?is.noGroup.has(r.r):chip==="noid"?is.noId.has(r.r):chip==="inactive"?/^n/i.test(String(r.v[3])):true);
+  if(q)rows=rows.filter(r=>r.v.some(x=>String(x).toLowerCase().includes(q)));
+  const chips=is?`<div class="chips">${[["all","All"],["dup","Duplicate ID"],["nogroup","No group"],["noid","No ID"],["inactive","Inactive"]].map(c=>`<span class="chip ${chip===c[0]?"act":""}" data-chip="${c[0]}">${c[1]}</span>`).join("")}</div>`:"";
+  const head=s.header.map((h,i)=>`<th>${esc(h)}</th>`).join("")+(is?"<th>Health</th>":"")+(can&&snap.role==="admin"?"<th></th>":"");
+  const cellHtml=(name,r,c,s)=>{const v=r.v[c],edc=s.editable&&c<s.cols,k=name+"|"+r.r+"|"+(c+1),box=name==="ChatSpaces"&&c===3;let inner;
+    if(box)inner='<input type="checkbox" '+(v===true?"checked":"")+(edc?"":" disabled")+' data-box="1">';
+    else if((name==="Log"&&c===2)||(name==="Outbox"&&c===5))inner=pill(v);
+    else if(name==="Routes"&&c===3)inner=/^n/i.test(String(v))?pill("N","warn"):pill("Y","ok");
+    else inner=esc(v);
+    return '<td class="'+((edc&&!box)?"ed":"")+(pending[k]?" busy":"")+'" data-c="'+(c+1)+'" title="'+esc(v)+'">'+inner+'</td>'};
+  const health=r=>is.dup.has(String(r.v[1]).trim())?pill("duplicate ID","bad"):!String(r.v[1]).trim()?pill("no ID","warn"):is.noGroup.has(r.r)?pill("no group","warn"):/^n/i.test(String(r.v[3]))?pill("inactive",""):pill("ready","ok");
+  const lim=(name==="Log"||name==="Outbox")?300:2000;
+  const body=rows.slice(0,lim).map(r=>'<tr data-r="'+r.r+'">'+s.header.map((h,c)=>cellHtml(name,r,c,s)).join("")+(is?'<td>'+health(r)+'</td>':"")+(can&&snap.role==="admin"?'<td><button class="x" data-del="1" title="Delete row">✕</button></td>':"")+'</tr>').join("");
+  $("main").innerHTML=`<div class="tools"><input type="search" id="q" placeholder="Search ${name}…" value="${esc(filter)}">${chips}<span class="mut">${rows.length} of ${s.rows.length}${s.tail?" (latest "+s.tail+")":""}</span><span class="sp"></span><button id="csv">Export CSV</button>${can?'<button class="pri" id="add">+ Add row</button>':""}</div>
+   <div class="wrap"><table><thead><tr>${head}</tr></thead><tbody id="tb">${body}</tbody></table></div>
+   <p class="mut"><small>${can?"Click a cell to edit · Enter saves to the Google Sheet · Esc cancels. Changes made in the sheet appear here within seconds.":"Read-only."}</small></p>`;
+  const qi=$("q");qi.oninput=e=>{filter=e.target.value;const p=qi.selectionStart;sheetPage(name);const n=$("q");n.focus();n.setSelectionRange(p,p)};
+  $("csv").onclick=()=>csv(name,rows,s.header);if($("add"))$("add").onclick=()=>addRow(name,s)}
 document.addEventListener("click",async e=>{
-  const t=e.target.closest(".tab");if(t){tab=t.dataset.t;editing=null;tabs();render();return}
-  const del=e.target.closest("[data-del]");if(del){const tr=del.closest("tr"),row=+tr.dataset.r;const first=snap.sheets[tab].rows.find(r=>r.r===row);
-    if(!confirm("Delete this row ("+(first?first.v[0]:"")+") from the Google Sheet?"))return;
-    const d=await write({op:"delete",sheet:tab,row,expect:String(first.v[0])});d.ok?toast("Row deleted"):toast(d.error);poll(true);return}
-  const td=e.target.closest("td.ed");if(td&&!editing&&snap.role==="edit")startEdit(td)});
-document.addEventListener("change",async e=>{const b=e.target.closest("[data-box]");if(!b)return;const tr=b.closest("tr"),row=+tr.dataset.r,r=snap.sheets[tab].rows.find(x=>x.r===row);
-  await save(tab,row,4,String(r.v[3]),b.checked,b.closest("td"))});
-function startEdit(td){const tr=td.closest("tr"),row=+tr.dataset.r,col=+td.dataset.c,r=snap.sheets[tab].rows.find(x=>x.r===row),old=r.v[col-1];
-  editing={tab,row,col};td.innerHTML=`<input class="cell" value="${esc(old)}">`;const i=td.firstChild;i.focus();i.select();
-  let done=false;const fin=async ok=>{if(done)return;done=true;editing=null;const nv=i.value;
-    if(ok&&String(nv)!==String(old))await save(tab,row,col,String(old),nv,td);else render()};
+  const c=e.target.closest("[data-chip]");if(c){chip=c.dataset.chip;show();return}
+  const del=e.target.closest("[data-del]");if(del){const row=+del.closest("tr").dataset.r,r=snap.sheets.Routes.rows.find(x=>x.r===row)||snap.sheets.ChatSpaces.rows.find(x=>x.r===row);const nm=page==="spaces"?"ChatSpaces":"Routes";const rr=snap.sheets[nm].rows.find(x=>x.r===row);
+    if(!confirm("Delete '"+rr.v[0]+"' from the Google Sheet?"))return;const d=await post({op:"delete",sheet:nm,row,expect:String(rr.v[0])});toast(d.ok?"Row deleted":d.error);poll(true);return}
+  const td=e.target.closest("td.ed");if(td&&!editing&&snap.role!=="viewer"){startEdit(td)}});
+document.addEventListener("change",async e=>{const b=e.target.closest("[data-box]");if(!b)return;const row=+b.closest("tr").dataset.r,r=snap.sheets.ChatSpaces.rows.find(x=>x.r===row);await save("ChatSpaces",row,4,String(r.v[3]),b.checked)});
+function startEdit(td){const nm=page==="spaces"?"ChatSpaces":"Routes",row=+td.closest("tr").dataset.r,col=+td.dataset.c,r=snap.sheets[nm].rows.find(x=>x.r===row),old=r.v[col-1];
+  editing={nm,row,col};td.innerHTML=`<input class="cell" value="${esc(old)}">`;const i=td.firstChild;i.focus();i.select();let done=false;
+  const fin=async ok=>{if(done)return;done=true;editing=null;if(ok&&String(i.value)!==String(old))await save(nm,row,col,String(old),i.value);else show()};
   i.onkeydown=ev=>{if(ev.key==="Enter")fin(true);else if(ev.key==="Escape")fin(false)};i.onblur=()=>fin(true)}
-async function save(sh,row,col,old,value,td){const k=sh+"|"+row+"|"+col;pending[k]=1;
-  const r=snap.sheets[sh].rows.find(x=>x.r===row);if(r)r.v[col-1]=value;render();      // show it immediately
-  try{const d=await write({op:"set",sheet:sh,row,col,old,value});
-    if(d.ok)toast("Saved to the sheet",1500);else toast(d.conflict?"Someone changed this cell in the sheet – showing the latest value":(d.error||"Not saved"),4500)}
-  catch(e){toast("Could not reach the sheet – not saved",4500)}
+async function save(nm,row,col,old,value){const k=nm+"|"+row+"|"+col;pending[k]=1;const r=snap.sheets[nm].rows.find(x=>x.r===row);if(r)r.v[col-1]=value;show();
+  try{const d=await post({op:"set",sheet:nm,row,col,old,value});toast(d.ok?"Saved to the sheet ✓":d.conflict?"Changed in the sheet meanwhile – showing the latest value":(d.error||"Not saved"),d.ok?1500:4500)}catch(e){toast("Could not reach the sheet – not saved",4500)}
   delete pending[k];await poll(true)}
-$("add").onclick=async()=>{const s=snap.sheets[tab];const vals=[];for(let i=0;i<s.cols;i++){const v=prompt(s.header[i]+(i===0?" (required)":"")+":","");if(v===null)return;vals.push(v)}
-  if(!String(vals[0]).trim()){toast("First column is required");return}const d=await write({op:"append",sheet:tab,values:vals});d.ok?toast("Row added"):toast(d.error);poll(true)};
-$("q").oninput=e=>{filter=e.target.value;if(!editing)render()};$("rf").onclick=()=>poll(true);$("lgo").onclick=login;$("lp").onkeydown=e=>{if(e.key==="Enter")login()};
-function signout(){store.del("dash_pw");clearTimeout(timer);snap=null;ver="";$("app").classList.add("hide");$("login").classList.remove("hide");$("lp").value=""}
-$("out").onclick=signout;document.addEventListener("visibilitychange",()=>{if(!document.hidden&&snap)poll(true)});
-(async()=>{cfg.url=store.get("dash_url")||DEFAULT_URL;cfg.pw=store.get("dash_pw");$("lu").value=cfg.url;
-  if(cfg.url&&cfg.pw){try{const d=await api({});if(d.ok){start(d);return}}catch(e){}}
-  $("login").classList.remove("hide")})();
+function addRow(nm,s){const fields=s.header.slice(0,s.cols);modal(`<h3 style="color:var(--ink);font-size:16px">Add to ${nm}</h3>${fields.map((h,i)=>`<label>${esc(h)}${i===0?" *":""}</label><input data-f="${i}" ${nm==="ChatSpaces"&&i===3?'placeholder="TRUE / FALSE"':""}>`).join("")}<div style="display:flex;gap:8px;margin-top:16px"><button class="pri" id="mok">Add</button><button id="mno">Cancel</button></div>`,async()=>{
+  const vals=[...document.querySelectorAll("#modal [data-f]")].map(i=>i.value);if(!vals[0].trim()){toast("First field is required");return false}const d=await post({op:"append",sheet:nm,values:vals});toast(d.ok?"Row added":d.error);poll(true);return d.ok})}
+function csv(name,rows,header){const q=v=>'"'+String(v??"").replace(/"/g,'""')+'"';const t=[header.map(q).join(",")].concat(rows.map(r=>r.v.map(q).join(","))).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["﻿"+t],{type:"text/csv"}));a.download=name+"_"+new Date().toISOString().slice(0,10)+".csv";a.click()}
+function modal(html,onOk){const m=$("modal");m.innerHTML=`<div class="card">${html}</div>`;m.classList.remove("hide");const close=()=>m.classList.add("hide");$("mno").onclick=close;$("mok").onclick=async()=>{if(await onOk()!==false)close()};m.onclick=e=>{if(e.target===m)close()}}
+
+/* ---------- activity & users ---------- */
+function activity(){const a=snap.audit||[];$("main").innerHTML=`<div class="wrap"><table><thead><tr><th>Time</th><th>User</th><th>Action</th><th>Sheet</th><th>Row</th><th>Detail</th></tr></thead><tbody>${a.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${pill(r[2],"acc")}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td><td style="white-space:normal">${esc(r[5])}</td></tr>`).join("")||'<tr><td colspan=6 class="mut">No activity yet.</td></tr>'}</tbody></table></div><p class="mut"><small>Every login and every edit made from this dashboard (latest 60). Edits made directly in Google Sheets are not recorded here.</small></p>`}
+function users(){const u=snap.users||[];$("main").innerHTML=`<div class="tools"><span class="mut">Admin: full access + users · Editor: edit clients & chat spaces · Viewer: read only</span><span class="sp"></span><button class="pri" id="nu">+ Add user</button></div><div class="wrap"><table><thead><tr><th>Username</th><th>Role</th><th>Status</th><th>Last login</th><th></th></tr></thead><tbody>${u.map(x=>`<tr><td>${esc(x.name)}</td><td>${pill(x.role,"acc")}</td><td>${pill(x.active?"active":"disabled",x.active?"ok":"bad")}</td><td>${esc(x.last||"—")}</td><td><button data-u="${esc(x.name)}">Edit</button></td></tr>`).join("")}</tbody></table></div>`;
+  $("nu").onclick=()=>userForm();document.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>userForm(u.find(x=>x.name===b.dataset.u)))}
+function userForm(u){modal(`<h3 style="color:var(--ink);font-size:16px">${u?"Edit "+esc(u.name):"New user"}</h3><label>Username</label><input id="fu" value="${esc(u?u.name:"")}" ${u?"disabled":""}><label>Password ${u?"(leave blank to keep)":"(min 8 characters)"}</label><input id="fp" type="password" autocomplete="new-password"><label>Role</label><select id="fr">${["viewer","editor","admin"].map(r=>`<option ${u&&u.role===r?"selected":""}>${r}</option>`).join("")}</select><label>Status</label><select id="fa"><option value="1">active</option><option value="0" ${u&&!u.active?"selected":""}>disabled</option></select><div style="display:flex;gap:8px;margin-top:16px"><button class="pri" id="mok">Save</button><button id="mno">Cancel</button></div>`,async()=>{
+  const d=await post({op:"user_save",username:$("fu").value,password:$("fp").value,role:$("fr").value,active:$("fa").value==="1"});toast(d.ok?"User saved":d.error);poll(true);return d.ok})}
+
+/* ---------- start ---------- */
+(async()=>{$("lu_url").value=st.get("dash_url")||DEFAULT_URL;cfg.url=$("lu_url").value;cfg.token=st.get("dash_token");if(DEFAULT_URL&&!$("lu_url").value)$("lu_url").value=DEFAULT_URL;if(!cfg.url)$("conn").open=true;
+  if(cfg.url&&cfg.token){try{await enter()}catch(e){}}})();
 </script></body></html>
